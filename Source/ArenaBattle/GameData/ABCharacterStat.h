@@ -22,7 +22,7 @@ public:
 	}
 
 	// 두 구조체를 더하는 연산자 오버로딩.
-	FABCharacterStat operator+(const FABCharacterStat& Other)
+	FABCharacterStat operator+(const FABCharacterStat& Other) const
 	{
 		//FMemory::MemCpy()
 

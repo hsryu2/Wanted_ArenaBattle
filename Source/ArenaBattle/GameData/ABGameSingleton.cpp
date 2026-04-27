@@ -1,33 +1,33 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ï»¿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "GameData/ABGameSingleton.h"
 
 UABGameSingleton::UABGameSingleton()
 {
-	// µ¥ÀÌÅÍ Å×ÀÌºí ¿¡¼Â ·Îµå.
+	// ë°ì´í„° í…Œì´ë¸” ì—ì…‹ ë¡œë“œ.
 	static ConstructorHelpers::FObjectFinder<UDataTable> DataTableRef(
-		TEXT("")
+		TEXT("/Game/ArenaBattle/GameData/ABCharacterStatTable.ABCharacterStatTable")
 	);
 
-	// ¿¡¼Â ·Îµå ¼º°ø ½Ã ™A¾û.
+	// ì—ì…‹ ë¡œë“œ ì„±ê³µ ì‹œ ì„¤ì •. 
 	if (DataTableRef.Succeeded())
 	{
-		// UDataTable º¯¼ö ÀúÀå.
+		// UDataTable ë³€ìˆ˜ ì €ì¥.
 		const UDataTable* DataTable = DataTableRef.Object;
-		// À¯È¿¼º °Ë»ç.
+		// ìœ íš¨ì„± ê²€ì‚¬.
 		ensureAlways(DataTable->GetRowMap().Num() > 0);
 		
-		// Value °ª¸¸ ¹è¿­¿¡ ÀúÀåÇÏ±â À§ÇÑ ¹è¿­.
+		// Value ê°’ë§Œ ë°°ì—´ì— ì €ì¥í•˜ê¸° ìœ„í•œ ë°°ì—´.
 		TArray<uint8*> ValueArray;
 
-		// Value °ª¸¸ ¹è¿­¿¡ ÀúÀå.
+		// Value ê°’ë§Œ ë°°ì—´ì— ì €ì¥.
 		DataTable->GetRowMap().GenerateValueArray(ValueArray);
 		
-		// for-loop ÇØµµ µÊ.
-		// ÆíÇÑ°Å »ç¿ëÇÒ °Í.
-		// ¶÷´Ùº¸´Ù ·çÇÁ°¡ Á¶±İ ´õ ºü¸§ ¶÷´Ù´Â ÀÓ½Ã °´Ã¼¸¦ ¸¸µé¾î¼­ ³Ñ°ÜÁÖ´Â ÀÛ¾÷µéÀÌ ÇÊ¿äÇÏ±â ¶§¹®.
-		// ¹«½ÃÇØµµ µÉ Á¤µµÀÇ ¼º´ÉÂ÷ÀÌ¶ó¼­ ÆíÇÑ°Å »ç¿ëÇÏ´Â °Í.
+		// for-loop í•´ë„ ë¨.
+		// í¸í•œê±° ì‚¬ìš©í•  ê²ƒ.
+		// ëŒë‹¤ë³´ë‹¤ ë£¨í”„ê°€ ì¡°ê¸ˆ ë” ë¹ ë¦„ ëŒë‹¤ëŠ” ì„ì‹œ ê°ì²´ë¥¼ ë§Œë“¤ì–´ì„œ ë„˜ê²¨ì£¼ëŠ” ì‘ì—…ë“¤ì´ í•„ìš”í•˜ê¸° ë•Œë¬¸.
+		// ë¬´ì‹œí•´ë„ ë  ì •ë„ì˜ ì„±ëŠ¥ì°¨ì´ë¼ì„œ í¸í•œê±° ì‚¬ìš©í•˜ëŠ” ê²ƒ.
 		//for (uint8* Value : ValueArray)
 		//{
 		//	CharacterStatTable.Add(
@@ -35,7 +35,7 @@ UABGameSingleton::UABGameSingleton()
 		//	);
 		//}
 
-		// ¾Ë°í¸®ÁòÀ» È°¿ëÇØ ¿øÇÏ´Â Å¸ÀÔÀ¸·Î º¯È¯.
+		// ì•Œê³ ë¦¬ì¦˜ì„ í™œìš©í•´ ì›í•˜ëŠ” íƒ€ì…ìœ¼ë¡œ ë³€í™˜.
 		Algo::Transform(ValueArray, CharacterStatTable,
 			[](uint8* Value)
 			{
@@ -43,12 +43,34 @@ UABGameSingleton::UABGameSingleton()
 			}
 		);
 
-		// ½ºÅİ Å×ÀÌºíÀÇ °³¼ö¸¦ ÃÖ´ë ·¹º§·Î ¼³Á¤.
+		// ìŠ¤í…Ÿ í…Œì´ë¸”ì˜ ê°œìˆ˜ë¥¼ ìµœëŒ€ ë ˆë²¨ë¡œ ì„¤ì •.
 		CharacterMaxLevel = CharacterStatTable.Num();
 
-		// ¹®Á¦ ¾ø´ÂÁö È®ÀÎ.
+		// ë¬¸ì œ ì—†ëŠ”ì§€ í™•ì¸.
 		CharacterMaxLevel = CharacterStatTable.Num();
 		ensureAlways(CharacterMaxLevel > 0);
 
 	}
+}
+
+
+UABGameSingleton& UABGameSingleton::Get()
+{
+	// í”„ë¡œì íŠ¸ ì„¸íŒ…ì—ì„œ ì‹±ê¸€í†¤ìœ¼ë¡œ ì§€ì •í•˜ë©´,
+	// ì—”ì§„ ì‹¤í–‰ ì‹œ GameSingleton ë³€ìˆ˜ì— ìƒì„±í•´ì¤Œ.
+	// CastChecked -> í˜•ë³€í™˜ ì‹¤íŒ¨ ì‹œ ì˜¤ë¥˜ë¥¼ ë°˜í™˜í•´ì¤Œ.
+	UABGameSingleton* Singleton = CastChecked<UABGameSingleton>(GEngine->GameSingleton);
+
+	if (Singleton)
+	{
+		return *Singleton;
+
+	}
+
+	// ì˜¤ë¥˜ ìƒí™©.
+	// ì œëŒ€ë¡œ ëœ ê²½ìš°ì— ì•„ë˜ì— ì ‘ê·¼í•˜ë©´ ì•ˆë¨.
+	UE_LOG(LogTemp, Error, TEXT("Invalid Game Sington"));
+
+	// í•¨ìˆ˜ êµ¬í˜„ì„ ìœ„í•´ ë°˜í™˜ì´ í•„ìš”í•¨.
+	return *NewObject< UABGameSingleton>();
 }

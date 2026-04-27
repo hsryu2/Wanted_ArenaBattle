@@ -312,7 +312,7 @@ void AABCharacterPlayer::ShoulderLook(const FInputActionValue& Value)
 	// 회전 처리 (카메라 회전).
 	// 컨트롤러를 회전 시키면 스프링 암 컴포넌트가 회전 함.
 	AddControllerYawInput(RotationValue.X);
-	AddControllerPitchInput(RotationValue.Y);
+	AddControllerPitchInput(RotationValue.Y * -1);
 }
 
 void AABCharacterPlayer::QuarterMove(const FInputActionValue& Value)
