@@ -5,13 +5,15 @@
 #include "CoreMinimal.h"
 #include "Character/ABCharacterBase.h"
 #include "Engine/StreamableManager.h"
+#include "Interface/ABCharacterAIInterface.h"
 #include "ABCharacterNonPlayer.generated.h"
 
 /**
  * 
  */
 UCLASS(config=ArenaBattle)
-class ARENABATTLE_API AABCharacterNonPlayer : public AABCharacterBase
+class ARENABATTLE_API AABCharacterNonPlayer : public AABCharacterBase,
+	public IABCharacterAIInterface
 {
 	GENERATED_BODY()
 	
@@ -34,5 +36,15 @@ protected:
 	
 	// 비동기 방식으로 에셋을 로드하기 위한 핸들.
 	TSharedPtr<FStreamableHandle>  NPCMeshHandle;
+
+
+	// IABCharacterAIInterface을(를) 통해 상속됨
+	float GetAIPatrolRadius() override;
+
+	float GetAIDetectRange() override;
+
+	float GetAIAttackRange() override;
+
+	float GetAITurnSpeed() override;
 
 };

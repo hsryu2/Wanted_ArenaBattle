@@ -95,3 +95,23 @@ void AABCharacterNonPlayer::SetDead()
 
 
 }
+
+float AABCharacterNonPlayer::GetAIPatrolRadius()
+{
+	return 800.0f;
+}
+
+float AABCharacterNonPlayer::GetAIDetectRange()
+{
+	return 400.0f;
+}
+
+float AABCharacterNonPlayer::GetAIAttackRange()
+{
+	return 0.0f;
+}
+
+float AABCharacterNonPlayer::GetAITurnSpeed()
+{
+	return 0.0f;
+}
