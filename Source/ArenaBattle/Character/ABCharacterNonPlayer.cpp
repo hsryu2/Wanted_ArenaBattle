@@ -4,6 +4,7 @@
 #include "Character/ABCharacterNonPlayer.h"
 #include "Engine/AssetManager.h"
 #include "AI/ABAIController.h"
+#include "CharacterStat/ABCharacterStatComponent.h"
 
 AABCharacterNonPlayer::AABCharacterNonPlayer()
 {
@@ -108,10 +109,36 @@ float AABCharacterNonPlayer::GetAIDetectRange()
 
 float AABCharacterNonPlayer::GetAIAttackRange()
 {
-	return 0.0f;
+	// 공격 거리.
+	// 캡슐 형태 = 공격 거리 + (공격 반경 * 2).
+	return Stat->GetTotalStat().AttackRange + (Stat->GetAttackRadius() * 2);
 }
 
 float AABCharacterNonPlayer::GetAITurnSpeed()
 {
-	return 0.0f;
+	return 2.0f;
+}
+
+void AABCharacterNonPlayer::AttackByAI()
+{
+	// 공격 재생
+	ProcessComboCommand();
+
+	// 공격 끝난 후 처리.
+	
+
+}
+
+void AABCharacterNonPlayer::SetAIAttackDelegate(const FAICharacterAttackFinished& InOnAttackFinished)
+{
+	// 델리게이트를 변수에 저장.
+	OnAttackFinished = InOnAttackFinished;
+
+}
+
+void AABCharacterNonPlayer::NotifyComboActionEnd()
+{
+	Super::NotifyComboActionEnd();
+
+	OnAttackFinished.ExecuteIfBound();
 }

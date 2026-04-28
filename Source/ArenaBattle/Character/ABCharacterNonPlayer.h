@@ -47,4 +47,13 @@ protected:
 
 	float GetAITurnSpeed() override;
 
+	void AttackByAI() override;
+
+	virtual void SetAIAttackDelegate(const FAICharacterAttackFinished& InOnAttackFinished) override;
+
+	// SetAIAttackDelegate 함수로부터 전달받은 델리게이트를 지정할 변수.
+	FAICharacterAttackFinished OnAttackFinished;
+
+	// 공격 모션이 끝나면 호출되는 이벤트 함수.
+	virtual void NotifyComboActionEnd() override;
 };

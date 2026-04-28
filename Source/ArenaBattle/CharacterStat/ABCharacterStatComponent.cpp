@@ -16,6 +16,8 @@ UABCharacterStatComponent::UABCharacterStatComponent()
 	//CurrentHp = MaxHp;
 	CurrentLevel = 1;
 
+	// 공격 반경 설정.
+	AttackRadius = 50.0f;
 }
 
 
